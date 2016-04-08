@@ -42,7 +42,7 @@ describe('Browser Logs', () => {
   it('should allow ignoring the specific messages only', () => {
     browserConsole.error('Oops!');
     browserConsole.warn('Oops!');
-    browserLogs.ignore((message) => { return message.level === 'SEVERE'; });
+    browserLogs.ignore((message) => { return message.level.name === 'SEVERE'; });
     return expect(browserLogs.verify()).to.eventually.be.rejectedWith(
       'UNEXPECTED MESSAGE: {"level":"WARNING","message":"Oops!"}');
   });

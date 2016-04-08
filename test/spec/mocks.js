@@ -6,7 +6,7 @@ module.exports.console = (logs) => {
 
   function log(level) {
     return function (message) {
-      logs.push({level: level, message: message});
+      logs.push({level: {name: level}, message: message});
     };
   }
 

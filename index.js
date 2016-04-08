@@ -16,7 +16,7 @@ function and(a, b) {
 
 function byLevel(expectedLevel) {
   return function (message) {
-    return message.level === expectedLevel;
+    return message.level.name === expectedLevel;
   };
 }
 
@@ -120,7 +120,7 @@ module.exports = function (browser) {
             }
             if (!zipped[i][0] || !zipped[i][0](zipped[i][1])) {
               return q.reject(new Error('UNEXPECTED MESSAGE: ' + JSON.stringify({
-                level: zipped[i][1].level,
+                level: zipped[i][1].level.name,
                 message: zipped[i][1].message
               })));
             }
