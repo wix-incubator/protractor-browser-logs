@@ -1,0 +1,28 @@
+{
+  "name": "protractor-browser-logs",
+  "version": "1.0.0",
+  "description": "Provides tools for asserting browser logs inside protractor tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha --recursive ./test/spec",
+    "test-watch": "npm test -- -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mastertheblaster/protractor-browser-logs.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mastertheblaster/protractor-browser-logs/issues"
+  },
+  "homepage": "https://github.com/mastertheblaster/protractor-browser-logs#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.4"
+  }
+}
