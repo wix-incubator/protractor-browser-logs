@@ -72,16 +72,16 @@ function removeMatchingMessages(messages, filters) {
 
 module.exports = function (browser) {
 
-  var c = [];
+  var ignores = [],
+      expects = [],
+      log     = [];
+
   function logs() {
-    return browser.manage().logs().get('browser').then(function (a) {
-      c = c.concat(a);
-      return c;
+    return browser.manage().logs().get('browser').then(function (result) {
+      log = log.concat(result);
+      return log;
     });
   }
-
-  var ignores = [],
-      expects = [];
 
   return {
 
@@ -95,6 +95,7 @@ module.exports = function (browser) {
     and: and,
 
     reset: function () {
+      log.splice(0, log.length);
       expects.splice(0, expects.length);
       ignores.splice(0, ignores.length);
     },
