@@ -6,25 +6,33 @@ Inspired by https://github.com/angular/protractor-console-plugin/
 ### Installation
 
 ```bash
-npm install protractor-browser-logs --save-dev
+npm install https://github.com/mastertheblaster/protractor-browser-logs.git --save-dev
 ```
 
 ### Typical library usage
 
 ```js
-var logs = require('protractor-browser-logs');
+var browserLogs = require('protractor-browser-logs');
 
 describe('Home page:', function () {
 
-  it('should log an error after clicking a button', function () {
+  var logs;
+
+  beforeEach(function () {
+    logs = browserLogs(browser);
     logs.ignore(logs.DEBUG);
     logs.ignore(logs.INFO);
+  });
+
+  afterEach(function () {
+    return logs.verify();
+  });
+
+  it('should log an error after clicking a button', function () {
     logs.expect(/server request failed/g);
 
     browser.get('...');
     element(by.id('button')).click();
-
-    return logs.verify();
   });
 
 });
@@ -33,20 +41,28 @@ describe('Home page:', function () {
 ### Using advanced features
 
 ```js
-var logs = require('protractor-browser-logs');
+var browserLogs = require('protractor-browser-logs');
 
 describe('Home page:', function () {
 
+  var log = browserLogs(browser);
+
   beforeEach(function () {
-    // Skip all DEBUG and INFO messages and any containing Oops
+    // Use only one instance, but need to reset before each test.
+    log.reset();
+
+    // Combine matcher functions
     logs.ignore(logs.or(logs.DEBUG, logs.INFO));
+
+    // Specify custom matcher function
     logs.ignore(function (message) {
       return message.message.indexOf('Oops') !== -1;
     });
   });
 
   it('should log an error after clicking a button', function () {
-    logs.expect(/retrying/g, logs.WARN);
+    // The sequence of expectations does matter
+    logs.expect(/retrying/g, logs.WARN); // Expect message having "retrying" text and WARNING level.
     logs.expect(/server request failed/g, logs.ERROR);
 
     browser.get('...');
@@ -64,10 +80,22 @@ describe('Home page:', function () {
 
 ```js
 onPrepare = function () {
-  var logs = require('protractor-browser-logs');
-  global['logs'] = logs;
+
+  var browserLogs = require('protractor-browser-logs'),
+      logs = browserLogs(browser);
+
+  if (global.logs) {
+    throw new Error('Oops, name is already reserved!');
+  }
+  global.logs = logs;
 
   beforeEach(function () {
+    logs.reset();
+
+    // You can put here all expected generic expectations.
+    logs.ignore('cast_sender.js');
+    logs.ignore('favicon.ico');
+
     logs.ignore(logs.or(logs.INFO, logs.DEBUG));
   });
 
