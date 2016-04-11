@@ -38,4 +38,7 @@
     "logs",
     "console"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
