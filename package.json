@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha --recursive ./test/spec",
-    "test-watch": "npm test -- -w"
+    "test-watch": "npm test -- -w",
+    "build": ":",
+    "release": ":",
+    "start": ":"
   },
   "repository": {
     "type": "git",
