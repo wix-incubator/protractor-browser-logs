@@ -6,7 +6,7 @@ Inspired by https://github.com/angular/protractor-console-plugin/
 ### Installation
 
 ```bash
-npm install https://github.com/mastertheblaster/protractor-browser-logs.git --save-dev
+npm install protractor-browser-logs --save-dev
 ```
 
 ### Typical library usage
