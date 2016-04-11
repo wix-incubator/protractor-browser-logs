@@ -24,5 +24,18 @@
   },
   "dependencies": {
     "bluebird": "^3.3.4"
-  }
+  },
+  "keywords": [
+    "angular",
+    "test",
+    "testing",
+    "webdriver",
+    "webdriverjs",
+    "selenium",
+    "protractor",
+    "protractor-plugin",
+    "browser",
+    "logs",
+    "console"
+  ],
 }
