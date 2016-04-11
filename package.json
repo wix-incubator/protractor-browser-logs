@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mastertheblaster/protractor-browser-logs.git"
+    "url": "git+https://github.com/wix/protractor-browser-logs.git"
   },
   "author": "",
   "license": "",
   "bugs": {
-    "url": "https://github.com/mastertheblaster/protractor-browser-logs/issues"
+    "url": "https://github.com/wix/protractor-browser-logs/issues"
   },
-  "homepage": "https://github.com/mastertheblaster/protractor-browser-logs#readme",
+  "homepage": "https://github.com/wix/protractor-browser-logs#readme",
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
