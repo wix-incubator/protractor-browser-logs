@@ -7,7 +7,7 @@
     "test": "node_modules/mocha/bin/mocha --recursive ./test/spec",
     "test-watch": "npm test -- -w",
     "build": ":",
-    "release": ":",
+    "release": "wnpm-release --no-shrinkwrap",
     "start": ":"
   },
   "repository": {
@@ -27,6 +27,9 @@
   },
   "dependencies": {
     "bluebird": "^3.3.4"
+  },
+  "optionalDependencies": {
+    "wnpm-ci": "*"
   },
   "keywords": [
     "angular",
