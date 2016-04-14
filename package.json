@@ -14,7 +14,18 @@
     "type": "git",
     "url": "git+https://github.com/wix/protractor-browser-logs.git"
   },
-  "author": "",
+  "author": {
+    "name": "Mantas Miliukas"
+  },
+  "maintainers": [
+    {
+      "name": "Mantas Miliukas",
+      "email": "mantasm@wix.com"
+    }
+  ],
+  "engines": {
+    "node": ">=0.8.0"
+  },
   "license": "",
   "bugs": {
     "url": "https://github.com/wix/protractor-browser-logs/issues"
