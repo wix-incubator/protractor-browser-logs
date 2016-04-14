@@ -55,7 +55,7 @@
     "logs",
     "console"
   ],
-  "private": true,
+  "private": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   }
