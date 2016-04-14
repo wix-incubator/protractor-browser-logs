@@ -150,6 +150,9 @@ onPrepare = function () {
 
 ### Protractor capabilities configuration
 
+By default browser allows recording only `WARNING` and `SEVERE` level messages.
+In order to be able asserting any level, You need to change the `loggingPrefs.browser` capabilities.
+
 ```js
 capabilities: {
   loggingPrefs: {
