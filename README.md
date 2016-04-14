@@ -1,6 +1,8 @@
 # Protractor browser logs assertion library
 
-Provides tools for asserting browser logs inside protractor tests.
+It allows asserting the browser console logs in each test for warnings and errors.
+You can set the ignored messages, specify the expectations using strings, regex or custom matchers.
+
 Inspired by https://github.com/angular/protractor-console-plugin/
 
 ### Installation
@@ -35,6 +37,47 @@ describe('Home page:', function () {
     element(by.id('button')).click();
   });
 
+});
+```
+
+### API
+
+You can ignore any message whenever it appears.
+
+```js
+var browserLogs = require('protractor-browser-logs');
+browserLogs.ignore('text');
+browserLogs.ignore(/text/ig);
+browserLogs.ignore(function (message) {
+  return message.message.toLowerCase().indexOf('text') !== -1;
+});
+
+// You can combine them all together
+browserLogs.ignore('hello', 'world'); // ignores messages containing `hello` and `world`
+browserLogs.ignore(/hello/i, function (message) { // ignore all messages containting `hello` but not `world`
+  return message.message.indexOf('world') === -1;
+});
+```
+
+You can also expect some messages. The order does matter.
+
+```js
+var browserLogs = require('protractor-browser-logs');
+browserLogs.expect('one');
+browserLogs.expect(/two/ig);
+browserLogs.expect(function (message) {
+  return message.message.toLowerCase().indexOf('three') === 0;
+});
+```
+
+You can check the expectations using `verify` method which returns a promise:
+
+```js
+it('this is my test', function () {
+  var browserLogs = require('protractor-browser-logs');
+  browserLogs.expect('one');
+  // ...
+  return browserLogs.verify();
 });
 ```
 
