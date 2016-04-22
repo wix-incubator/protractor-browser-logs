@@ -1,10 +1,6 @@
 
 const q = require('bluebird');
 
-function arr(a) {
-  return Array.prototype.slice.call(a);
-}
-
 function or(a, b) {
   return message => a(message) || b(message);
 }
@@ -49,7 +45,7 @@ function matcherFor(args) {
 
 function removeMatchingMessages(messages, filters) {
   return messages.filter(message => {
-    return !filters.find(filter => filter(message));
+    return !filters.filter(filter => filter(message)).length;
   });
 }
 
