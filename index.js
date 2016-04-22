@@ -6,23 +6,26 @@ function arr(a) {
 }
 
 function or(a, b) {
-  return message => a(message) || b(message);
+  return function(message) {
+    return a(message) || b(message);
+  }
 }
 
 function and(a, b) {
-  return message => a(message) && b(message);
+  return function (message) {
+    return a(message) && b(message);}
 }
 
 function byLevel(expectedLevel) {
-  return message => message.level.name === expectedLevel;
+  return function(message) { return message.level.name === expectedLevel;}
 }
 
 function byText(text) {
-  return message => message.message.indexOf(text) !== -1;
+  return function(message) { return message.message.indexOf(text) !== -1;}
 }
 
 function byRegExp(re) {
-  return message => message.message.match(re);
+  return function(message) { return message.message.match(re);}
 }
 
 function zip(a, b) {
@@ -35,7 +38,7 @@ function zip(a, b) {
 }
 
 function matcherFor(args) {
-  var matchers = args.map(arg => {
+  var matchers = args.map(function(arg) {
     if (typeof arg === 'string') {
       return byText(arg);
     } else if (arg instanceof RegExp) {
@@ -44,14 +47,42 @@ function matcherFor(args) {
       return arg;
     }
   });
-  return message => matchers.every(curr => curr(message));
+  return function(message) { return matchers.every(function(curr) {
+      return curr(message)
+  })}
 }
 
 function removeMatchingMessages(messages, filters) {
-  return messages.filter(message => {
-    return !filters.find(filter => filter(message));
+  return messages.filter(function(message) {
+      
+    return !filters.find(function(filter ) {return filter(message)});
   });
 }
+
+// polyfill from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+if (!Array.prototype.find) {
+    Array.prototype.find = function(predicate) {
+        if (this === null) {
+            throw new TypeError('Array.prototype.find called on null or undefined');
+        }
+        if (typeof predicate !== 'function') {
+            throw new TypeError('predicate must be a function');
+        }
+        var list = Object(this);
+        var length = list.length >>> 0;
+        var thisArg = arguments[1];
+        var value;
+
+        for (var i = 0; i < length; i++) {
+            value = list[i];
+            if (predicate.call(thisArg, value, i, list)) {
+                return value;
+            }
+        }
+        return undefined;
+    };
+}
+
 
 module.exports = function (browser) {
 
@@ -80,19 +111,19 @@ module.exports = function (browser) {
     INFO:    byLevel('INFO'),
     LOG:     byLevel('INFO'),
 
-    or,
-    and,
-    reset,
+    or: or,
+    and: and,
+    reset: reset,
 
     ignore: function () { ignores.push(matcherFor(arr(arguments))); },
     expect: function () { expects.push(matcherFor(arr(arguments))); },
 
-    verify: () => browser.getCapabilities().then(cap => {
+    verify: function() {browser.getCapabilities().then(function(cap) {
       if (cap.caps_.browserName !== 'chrome') {
         return q.resolve();
       }
 
-      return logs().then(messages => {
+      return logs().then(function(messages) {
         var zipped = zip(expects,
           removeMatchingMessages(messages, ignores));
 
@@ -110,7 +141,7 @@ module.exports = function (browser) {
 
         return q.resolve();
       });
-    })
+    })}
   };
 
 };
