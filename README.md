@@ -31,7 +31,7 @@ describe('Home page:', function () {
   });
 
   it('should log an error after clicking a button', function () {
-    logs.expect(/server request failed/g);
+    logs.expect(/server request failed/);
 
     browser.get('...');
     element(by.id('button')).click();
@@ -45,16 +45,15 @@ describe('Home page:', function () {
 You can ignore any message whenever it appears.
 
 ```js
-var browserLogs = require('protractor-browser-logs');
-browserLogs.ignore('text');
-browserLogs.ignore(/text/ig);
-browserLogs.ignore(function (message) {
+logs.ignore('text');
+logs.ignore(/text/i);
+logs.ignore(function (message) {
   return message.message.toLowerCase().indexOf('text') !== -1;
 });
 
 // You can combine them all together
-browserLogs.ignore('hello', 'world'); // ignores messages containing `hello` and `world`
-browserLogs.ignore(/hello/i, function (message) { // ignore all messages containting `hello` but not `world`
+logs.ignore('hello', 'world'); // ignores messages containing `hello` and `world`
+logs.ignore(/hello/i, function (message) { // ignore all messages containting `hello` but not `world`
   return message.message.indexOf('world') === -1;
 });
 ```
@@ -62,10 +61,9 @@ browserLogs.ignore(/hello/i, function (message) { // ignore all messages contain
 You can also expect some messages. The order does matter.
 
 ```js
-var browserLogs = require('protractor-browser-logs');
-browserLogs.expect('one');
-browserLogs.expect(/two/ig);
-browserLogs.expect(function (message) {
+logs.expect('one');
+logs.expect(/two/i);
+logs.expect(function (message) {
   return message.message.toLowerCase().indexOf('three') === 0;
 });
 ```
@@ -74,10 +72,9 @@ You can check the expectations using `verify` method which returns a promise:
 
 ```js
 it('this is my test', function () {
-  var browserLogs = require('protractor-browser-logs');
-  browserLogs.expect('one');
+  logs.expect('one');
   // ...
-  return browserLogs.verify();
+  return logs.verify();
 });
 ```
 
@@ -105,8 +102,8 @@ describe('Home page:', function () {
 
   it('should log an error after clicking a button', function () {
     // The sequence of expectations does matter
-    logs.expect(/retrying/g, logs.WARN); // Expect message having "retrying" text and WARNING level.
-    logs.expect(/server request failed/g, logs.ERROR);
+    logs.expect(/retrying/, logs.WARN); // Expect message having "retrying" text and WARNING level.
+    logs.expect(/server request failed/, logs.ERROR);
 
     browser.get('...');
     element(by.id('button')).click();
