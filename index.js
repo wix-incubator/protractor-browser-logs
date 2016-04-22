@@ -34,8 +34,8 @@ function zip(a, b) {
   return result;
 }
 
-function matcherFor() {
-  var matchers = arr(arguments).map(arg => {
+function matcherFor(args) {
+  var matchers = args.map(arg => {
     if (typeof arg === 'string') {
       return byText(arg);
     } else if (arg instanceof RegExp) {
@@ -84,8 +84,8 @@ module.exports = function (browser) {
     and,
     reset,
 
-    ignore: function () { ignores.push(matcherFor(...arguments)); },
-    expect: function () { expects.push(matcherFor(...arguments)); },
+    ignore: function () { ignores.push(matcherFor(arr(arguments))); },
+    expect: function () { expects.push(matcherFor(arr(arguments))); },
 
     verify: () => browser.getCapabilities().then(cap => {
       if (cap.caps_.browserName !== 'chrome') {
