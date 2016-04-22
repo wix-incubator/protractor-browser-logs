@@ -7,8 +7,7 @@ const mocks    = require('./mocks');
 
 describe('Browser Logs', () => {
 
-  var browserConsole,
-      browserLogs;
+  var browserConsole, browserLogs;
 
   beforeEach(function () {
     var store = [];

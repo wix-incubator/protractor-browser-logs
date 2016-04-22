@@ -21,26 +21,26 @@ module.exports.console = (logs) => {
 };
 
 module.exports.browser = (logs, browserName) => {
-    return {
-      getCapabilities() {
-        return q.resolve({
-          caps_: {
-            browserName: browserName || 'chrome'
-          }
-        });
-      },
-      manage() {
-        return {
-          logs() {
-            return {
-              get(type) {
-                return type === 'browser' ?
-                  q.resolve(logs.splice(0, logs.length)) :
-                  q.reject();
-              }
-            };
-          }
-        };
-      }
-    };
+  return {
+    getCapabilities() {
+      return q.resolve({
+        caps_: {
+          browserName: browserName || 'chrome'
+        }
+      });
+    },
+    manage() {
+      return {
+        logs() {
+          return {
+            get(type) {
+              return type === 'browser' ?
+                q.resolve(logs.splice(0, logs.length)) :
+                q.reject();
+            }
+          };
+        }
+      };
+    }
+  };
 };
