@@ -45,7 +45,6 @@
     "wnpm-dev": "^2.1.16"
   },
   "dependencies": {
-    "bluebird": "^3.3.4"
   },
   "optionalDependencies": {
     "wnpm-ci": "*"

@@ -1,13 +1,8 @@
 
-const q = require('bluebird');
-
-
 module.exports.console = (logs) => {
 
   function log(level) {
-    return function (message) {
-      logs.push({level: {name: level}, message: message});
-    };
+    return message => logs.push({level: {name: level}, message: message});
   }
 
   return {
@@ -23,7 +18,7 @@ module.exports.console = (logs) => {
 module.exports.browser = (logs, browserName) => {
   return {
     getCapabilities() {
-      return q.resolve({
+      return Promise.resolve({
         caps_: {
           browserName: browserName || 'chrome'
         }
@@ -35,8 +30,8 @@ module.exports.browser = (logs, browserName) => {
           return {
             get(type) {
               return type === 'browser' ?
-                q.resolve(logs.splice(0, logs.length)) :
-                q.reject();
+                Promise.resolve(logs.splice(0, logs.length)) :
+                Promise.reject();
             }
           };
         }

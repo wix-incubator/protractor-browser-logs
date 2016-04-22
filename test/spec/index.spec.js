@@ -9,7 +9,7 @@ describe('Browser Logs', () => {
 
   var browserConsole, browserLogs;
 
-  beforeEach(function () {
+  beforeEach(() => {
     var store = [];
     browserConsole = mocks.console(store);
     browserLogs = logs(mocks.browser(store, 'chrome'));
@@ -69,9 +69,7 @@ describe('Browser Logs', () => {
 
   it('should allow using "and" helper function', () => {
     function havingLetter(letter) {
-      return function (message) {
-        return message.message.indexOf(letter) !== -1;
-      };
+      return message => message.message.indexOf(letter) !== -1;
     }
     browserConsole.error('Oops!');
     browserLogs.ignore(browserLogs.and(havingLetter('O'), havingLetter('!')));
@@ -139,12 +137,10 @@ describe('Browser Logs', () => {
     expect(browserLogs.verify()).to.eventually.be.rejectedWith('NO MESSAGE TO EXPECT');
   });
 
-  it('should not fail calling verify multiple times', function() {
+  it('should not fail calling verify multiple times', () => {
     browserLogs.expect('a');
     browserConsole.error('a');
-    browserLogs.verify().then(function () {
-      return browserLogs.verify();
-    });
+    browserLogs.verify().then(() => browserLogs.verify());
   });
 
 });

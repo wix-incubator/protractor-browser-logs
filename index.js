@@ -1,6 +1,4 @@
 
-const q = require('bluebird');
-
 function or(a, b) {
   return message => a(message) || b(message);
 }
@@ -85,7 +83,7 @@ module.exports = function (browser) {
 
     verify: () => browser.getCapabilities().then(cap => {
       if (cap.caps_.browserName !== 'chrome') {
-        return q.resolve();
+        return;
       }
 
       return logs().then(messages => {
@@ -94,17 +92,17 @@ module.exports = function (browser) {
 
         for (var i = 0; i < zipped.length; i++) {
           if (!zipped[i].actual) {
-            return q.reject(new Error('NO MESSAGE TO EXPECT'));
+            throw new Error('NO MESSAGE TO EXPECT');
           }
           if (!zipped[i].expected || !zipped[i].expected(zipped[i].actual)) {
-            return q.reject(new Error('UNEXPECTED MESSAGE: ' + JSON.stringify({
+            throw new Error('UNEXPECTED MESSAGE: ' + JSON.stringify({
               level: zipped[i].actual.level.name,
               message: zipped[i].actual.message
-            })));
+            }));
           }
         }
 
-        return q.resolve();
+        return;
       });
     })
   };
