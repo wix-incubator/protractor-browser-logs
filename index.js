@@ -20,16 +20,11 @@ function byRegExp(re) {
 }
 
 function zip(a, b) {
-  var total = Math.max(a.length, b.length);
-  var result = [];
-  for (var i = 0; i < total; i++) {
-    result.push({expected: a[i] || null, actual: b[i] || null});
-  }
-  return result;
+  return (a.length > b.length ? a : b).map((x, i) => [a[i], b[i]]);
 }
 
 function matcherFor(args) {
-  var matchers = args.map(arg => {
+  let matchers = args.map(arg => {
     if (typeof arg === 'string') {
       return byText(arg);
     } else if (arg instanceof RegExp) {
@@ -41,9 +36,9 @@ function matcherFor(args) {
   return message => matchers.every(curr => curr(message));
 }
 
-function removeMatchingMessages(messages, filters) {
+function removeMatching(messages, filters) {
   return messages.filter(message => {
-    return !filters.filter(filter => filter(message)).length;
+    return filters.filter(filter => filter(message)).length === 0;
   });
 }
 
@@ -82,22 +77,19 @@ module.exports = function (browser) {
     verify: () => browser.getCapabilities().then(cap => {
       if (cap.caps_.browserName === 'chrome') {
         return logs().then(messages => {
-          var zipped = zip(expects, removeMatchingMessages(messages, ignores));
-
-          for (var i = 0; i < zipped.length; i++) {
-            if (!zipped[i].actual) {
+          zip(expects, removeMatching(messages, ignores)).forEach(([expected, actual]) => {
+            if (!actual) {
               throw new Error('NO MESSAGE TO EXPECT');
             }
-            if (!zipped[i].expected || !zipped[i].expected(zipped[i].actual)) {
+            if (!expected || !expected(actual)) {
               throw new Error('UNEXPECTED MESSAGE: ' + JSON.stringify({
-                level: zipped[i].actual.level.name,
-                message: zipped[i].actual.message
+                level: actual.level.name,
+                message: actual.message
               }));
             }
-          }
+          });
         });
       }
     })
   };
-
 };
