@@ -48,8 +48,7 @@ function removeMatchingMessages(messages, filters) {
 }
 
 module.exports = function (browser) {
-
-  var ignores, expects, log;
+  let ignores, expects, log;
 
   function logs() {
     return browser.manage().logs().get('browser').then(function (result) {
@@ -67,7 +66,6 @@ module.exports = function (browser) {
   reset();
 
   return {
-
     ERROR:   byLevel('SEVERE'),
     WARNING: byLevel('WARNING'),
     DEBUG:   byLevel('DEBUG'),
@@ -82,28 +80,23 @@ module.exports = function (browser) {
     expect: (...args) => expects.push(matcherFor(args)),
 
     verify: () => browser.getCapabilities().then(cap => {
-      if (cap.caps_.browserName !== 'chrome') {
-        return;
+      if (cap.caps_.browserName === 'chrome') {
+        return logs().then(messages => {
+          var zipped = zip(expects, removeMatchingMessages(messages, ignores));
+
+          for (var i = 0; i < zipped.length; i++) {
+            if (!zipped[i].actual) {
+              throw new Error('NO MESSAGE TO EXPECT');
+            }
+            if (!zipped[i].expected || !zipped[i].expected(zipped[i].actual)) {
+              throw new Error('UNEXPECTED MESSAGE: ' + JSON.stringify({
+                level: zipped[i].actual.level.name,
+                message: zipped[i].actual.message
+              }));
+            }
+          }
+        });
       }
-
-      return logs().then(messages => {
-        var zipped = zip(expects,
-          removeMatchingMessages(messages, ignores));
-
-        for (var i = 0; i < zipped.length; i++) {
-          if (!zipped[i].actual) {
-            throw new Error('NO MESSAGE TO EXPECT');
-          }
-          if (!zipped[i].expected || !zipped[i].expected(zipped[i].actual)) {
-            throw new Error('UNEXPECTED MESSAGE: ' + JSON.stringify({
-              level: zipped[i].actual.level.name,
-              message: zipped[i].actual.message
-            }));
-          }
-        }
-
-        return;
-      });
     })
   };
 
