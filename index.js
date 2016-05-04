@@ -42,7 +42,7 @@ function removeMatching(messages, filters) {
   });
 }
 
-module.exports = function (browser) {
+module.exports = function (browser, options) {
   let ignores, expects, log;
 
   function logs() {
@@ -77,6 +77,9 @@ module.exports = function (browser) {
     verify: () => browser.getCapabilities().then(cap => {
       if (cap.caps_.browserName === 'chrome') {
         return logs().then(messages => {
+          ((options || {}).reporters || []).forEach(reporter => {
+            reporter(messages);
+          });
           zip(expects, removeMatching(messages, ignores)).forEach(([expected, actual]) => {
             if (!actual) {
               throw new Error('NO MESSAGE TO EXPECT');
