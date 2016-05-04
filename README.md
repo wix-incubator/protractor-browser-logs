@@ -158,3 +158,30 @@ capabilities: {
 }
 ```
 More details could be found here: https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities#loggingpreferences-json-object
+
+### Custom reporters
+
+It's also possible to specify custom reporters, for filtering and printing out the log entries.
+
+```js
+function simple(entries) {
+  entries.forEach(function (entry) {
+    console.log([entry.level.name, entry.message].join(': '));
+  });
+}
+function colored(entries) {
+  var colors = { INFO: 35, /* magenta */, WARNING: 33 /* yellow */, SEVERE: 31 /* red */};
+  entries.forEach(function (entry) {
+    if (entry.level.name in colors) {
+      console.log('\u001b[' + colors[entry.level.name] + 'm' + [entry.level.name, entry.message].join(': ') + '\u001b[39m');
+    } else {
+      console.log([entry.level.name, entry.message].join(': '));
+    }
+  });
+}
+
+var browserLogs = require('protractor-browser-logs');
+browserLogs(browser, {
+  reporters: [simple, colored]
+});
+```
