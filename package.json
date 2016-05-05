@@ -7,7 +7,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --recursive ./dist/test/spec",
+    "test": "mocha --recursive ./dist/test/spec --reporter mocha-env-reporter",
     "build": "wix-node-build lint && wix-node-build build",
     "lint": "eslint ./index.js ./test",
     "release": "wnpm-release --no-shrinkwrap",
@@ -41,6 +41,7 @@
     "eslint": "^2.9.0",
     "eslint-plugin-mocha": "^2.2.0",
     "mocha": "^2.4.5",
+    "mocha-env-reporter": "^1.0.2",
     "wix-node-build": "latest",
     "wnpm-dev": "^2.1.16"
   },
