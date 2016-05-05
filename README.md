@@ -169,14 +169,11 @@ function simple(entries) {
     console.log([entry.level.name, entry.message].join(': '));
   });
 }
+
 function colored(entries) {
-  var colors = { INFO: 35, /* magenta */, WARNING: 33 /* yellow */, SEVERE: 31 /* red */};
+  var colors = { INFO: 35 /* magenta */, WARNING: 33 /* yellow */, SEVERE: 31 /* red */};
   entries.forEach(function (entry) {
-    if (entry.level.name in colors) {
-      console.log('\u001b[' + colors[entry.level.name] + 'm' + [entry.level.name, entry.message].join(': ') + '\u001b[39m');
-    } else {
-      console.log([entry.level.name, entry.message].join(': '));
-    }
+    console.log('\u001b[' + (colors[entry.level.name] || 37) + 'm' + [entry.level.name, entry.message].join(': ') + '\u001b[39m');
   });
 }
 

@@ -62,8 +62,8 @@ describe('Browser Logs Reporters', () => {
   });
 
   it('should call all reporters', () => {
-    var reporter1 = createSpy(),
-        reporter2 = createSpy();
+    var reporter1 = createSpy();
+    var reporter2 = createSpy();
     var browserLogs = logs(mocks.browser([]), {reporters: [reporter1, reporter2]});
 
     return expect(browserLogs.verify()).to.eventually.be.fulfilled.then(() => {
