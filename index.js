@@ -75,7 +75,7 @@ module.exports = function (browser, options) {
     expect: (...args) => expects.push(matcherFor(args)),
 
     verify: () => browser.getCapabilities().then(cap => {
-      if (cap.caps_.browserName === 'chrome') {
+      if (cap.get('browserName') === 'chrome') {
         return logs().then(messages => {
           ((options || {}).reporters || []).forEach(reporter => {
             reporter(messages);
