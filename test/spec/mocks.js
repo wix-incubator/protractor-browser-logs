@@ -16,13 +16,12 @@ module.exports.console = (logs) => {
 };
 
 module.exports.browser = (logs, browserName) => {
+  let Capabilities = new Map();
   return {
     getCapabilities() {
-      return Promise.resolve({
-        caps_: {
-          browserName: browserName || 'chrome'
-        }
-      });
+      return Promise.resolve(
+        Capabilities.set('browserName', browserName || 'chrome')
+      );
     },
     manage() {
       return {
