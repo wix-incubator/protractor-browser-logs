@@ -11,7 +11,7 @@
     "build": "npm run lint && wix-node-build build",
     "lint": "wix-node-build lint",
     "release": "wix-node-build release",
-    "start": "wix-node-build dev --mocha --dirs='index.js'"
+    "start": "wix-node-build start"
   },
   "repository": {
     "type": "git",
