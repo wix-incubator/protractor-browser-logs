@@ -43,7 +43,7 @@ function removeMatching(messages, filters) {
 }
 
 module.exports = function (browser, options) {
-  let ignores, expects, log;
+  let ignores, expects, log, errors;
 
   function logs() {
     return browser.manage().logs().get('browser').then(function (result) {
@@ -56,6 +56,7 @@ module.exports = function (browser, options) {
     ignores = [];
     expects = [];
     log     = [];
+    errors  = [];
   }
 
   reset();
@@ -85,12 +86,15 @@ module.exports = function (browser, options) {
               throw new Error('NO MESSAGE TO EXPECT');
             }
             if (!expected || !expected(actual)) {
-              throw new Error('UNEXPECTED MESSAGE: ' + JSON.stringify({
+              errors.push('UNEXPECTED MESSAGE: ' + JSON.stringify({
                 level: actual.level.name,
                 message: actual.message
               }));
             }
           });
+          if (errors.length > 0) {
+            throw new Error(errors);
+          }
         });
       }
     })
