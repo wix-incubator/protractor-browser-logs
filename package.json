@@ -7,11 +7,11 @@
     "dist"
   ],
   "scripts": {
-    "test": "yoshi test --mocha",
-    "build": "npm run lint && yoshi build",
-    "lint": "yoshi lint",
-    "release": "yoshi release",
-    "start": "yoshi start"
+    "test": "haste test --mocha",
+    "build": "npm run lint && haste build",
+    "lint": "haste lint",
+    "release": "haste release",
+    "start": "haste start"
   },
   "repository": {
     "type": "git",
@@ -20,10 +20,12 @@
   "author": {
     "name": "Mantas Miliukas"
   },
-  "maintainers": [{
-    "name": "Mantas Miliukas",
-    "email": "mantasm@wix.com"
-  }],
+  "maintainers": [
+    {
+      "name": "Mantas Miliukas",
+      "email": "mantasm@wix.com"
+    }
+  ],
   "engines": {
     "node": ">=0.8.0"
   },
@@ -36,7 +38,7 @@
     "babel-preset-es2015": "^6.6.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
-    "yoshi": "latest"
+    "haste-preset-yoshi": "latest"
   },
   "dependencies": {},
   "keywords": [
@@ -55,5 +57,8 @@
   "private": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "haste": {
+    "preset": "yoshi"
   }
 }
